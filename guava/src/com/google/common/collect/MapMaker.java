@@ -203,7 +203,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @Deprecated
   @Override
-  MapMaker maximumSize(int size) {
+  public MapMaker maximumSize(int size) {
     checkState(this.maximumSize == UNSET_INT, "maximum size was already set to %s",
         this.maximumSize);
     checkArgument(size >= 0, "maximum size must not be negative");
@@ -376,7 +376,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @Deprecated
   @Override
-  MapMaker expireAfterWrite(long duration, TimeUnit unit) {
+  public MapMaker expireAfterWrite(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterWriteNanos = unit.toNanos(duration);
     if (duration == 0 && this.nullRemovalCause == null) {
@@ -427,7 +427,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   @Deprecated
   @GwtIncompatible("To be supported")
   @Override
-  MapMaker expireAfterAccess(long duration, TimeUnit unit) {
+  public MapMaker expireAfterAccess(long duration, TimeUnit unit) {
     checkExpiration(duration, unit);
     this.expireAfterAccessNanos = unit.toNanos(duration);
     if (duration == 0 && this.nullRemovalCause == null) {
@@ -580,7 +580,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    */
   @Deprecated
   @Override
-  <K, V> ConcurrentMap<K, V> makeComputingMap(
+  public <K, V> ConcurrentMap<K, V> makeComputingMap(
       Function<? super K, ? extends V> computingFunction) {
     return (nullRemovalCause == null)
         ? new MapMaker.ComputingMapAdapter<K, V>(this, computingFunction)
@@ -748,7 +748,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
   }
 
   /** A map that is always empty and evicts on insertion. */
-  static class NullConcurrentMap<K, V> extends AbstractMap<K, V>
+  public static class NullConcurrentMap<K, V> extends AbstractMap<K, V>
       implements ConcurrentMap<K, V>, Serializable {
     private static final long serialVersionUID = 0;
 
@@ -868,7 +868,7 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * This might make more sense in ComputingConcurrentHashMap, but it causes a javac crash in some
    * cases there: http://code.google.com/p/guava-libraries/issues/detail?id=950
    */
-  static final class ComputingMapAdapter<K, V>
+  public static final class ComputingMapAdapter<K, V>
       extends ComputingConcurrentHashMap<K, V> implements Serializable {
     private static final long serialVersionUID = 0;
 
